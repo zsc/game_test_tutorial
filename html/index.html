@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="./">
+    <title>游戏测试完全指南：从人工测试到智能自动化</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/highlight.css">
+    <script src="assets/script.js" defer></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                processEscapes: false,
+                packages: {'[+]': ['noerrors', 'ams']}
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            loader: {
+                load: ['[tex]/noerrors', '[tex]/ams']
+            }
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h3>目录</h3>
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <div class="sidebar-search">
+                <input type="text" id="sidebar-search-input" placeholder="搜索..." autocomplete="off">
+            </div>
+            <div id="tree-container">
+                <nav class="tree-nav" role="tree">
+                    <div class="tree-item active" >
+                        <a href="index.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">游戏测试完全指南：从人工测试到智能自动化</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter1.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第1章：游戏测试基础理论</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter2.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第2章：人工测试的艺术与科学</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter3.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第3章：作弊码与调试后门</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter4.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第4章：数值系统与经济平衡测试</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter5.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第5章：战斗平衡与职业克制测试</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter6.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第6章：自动化测试框架设计</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter7.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第7章：AI驱动的平衡性测试</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter8.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第8章：强化学习测试代理</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter9.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第9章：地图与关卡验证</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter10.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第10章：性能与压力测试</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter11.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第11章：街机游戏测试</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter12.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第12章：即时战略游戏测试</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter13.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第13章：动作角色扮演游戏测试</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter14.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第14章：策略游戏测试</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter15.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第15章：开放世界游戏测试</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter16.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第16章：卡牌与自走棋游戏测试</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter17.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第17章：MOBA游戏数值测试</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter18.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第18章：测试自动化的未来</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter19.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第19章：测试工具生态与选型</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter20.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第20章：测试用例设计与管理</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter21.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第21章：性能基准与度量体系</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter22.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第22章：测试知识体系与术语</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="CLAUDE.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">Untitled</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </nav>
+        
+        <main class="content">
+            <article>
+                <h1 id="_1">游戏测试完全指南：从人工测试到智能自动化</h1>
+<h2 id="_2">前言</h2>
+<p>本教程面向资深工程师和AI科学家，系统介绍游戏开发中的测试方法论。从传统的人工测试技巧到前沿的强化学习应用，涵盖街机游戏到开放世界3A大作的完整测试体系。</p>
+<h2 id="_3">目录</h2>
+<h3 id="_4">第一部分：通用测试方法论</h3>
+<h4 id="1"><a href="chapter1.html">第1章：游戏测试基础理论</a></h4>
+<ul>
+<li>游戏测试的独特挑战</li>
+<li>测试金字塔在游戏开发中的应用</li>
+<li>状态空间爆炸与组合测试</li>
+<li>确定性vs随机性测试</li>
+</ul>
+<h4 id="2"><a href="chapter2.html">第2章：人工测试的艺术与科学</a></h4>
+<ul>
+<li>探索性测试策略</li>
+<li>边界测试与极限情况</li>
+<li>玩家行为模式分析</li>
+<li>Bug复现技巧与调试工具</li>
+</ul>
+<h4 id="3"><a href="chapter3.html">第3章：作弊码与调试后门</a></h4>
+<ul>
+<li>作弊码系统设计原理</li>
+<li>调试命令与控制台</li>
+<li>时间操控与状态快照</li>
+<li>God Mode与无敌测试</li>
+</ul>
+<h4 id="4"><a href="chapter4.html">第4章：数值系统与经济平衡测试</a></h4>
+<ul>
+<li>数值成长曲线验证</li>
+<li>经济系统循环检测</li>
+<li>通货膨胀与资源稀缺性分析</li>
+<li>Excel配表验证与公式审计</li>
+</ul>
+<h4 id="5"><a href="chapter5.html">第5章：战斗平衡与职业克制测试</a></h4>
+<ul>
+<li>伤害公式验证与边界条件</li>
+<li>职业/英雄平衡性矩阵</li>
+<li>技能组合与Meta分析</li>
+<li>PVP/PVE数值分离测试</li>
+</ul>
+<h4 id="6"><a href="chapter6.html">第6章：自动化测试框架设计</a></h4>
+<ul>
+<li>游戏引擎无关的测试架构</li>
+<li>输入模拟与录制回放</li>
+<li>断言系统与验证策略</li>
+<li>测试数据管理</li>
+</ul>
+<h4 id="7ai"><a href="chapter7.html">第7章：AI驱动的平衡性测试</a></h4>
+<ul>
+<li>蒙特卡洛模拟对战</li>
+<li>遗传算法优化Build配置</li>
+<li>自动化Meta发现</li>
+<li>机器学习预测平衡性问题</li>
+</ul>
+<h4 id="8"><a href="chapter8.html">第8章：强化学习测试代理</a></h4>
+<ul>
+<li>RL代理发现数值漏洞</li>
+<li>自动化寻找最优策略</li>
+<li>多智能体对抗测试</li>
+<li>迁移学习与泛化能力</li>
+</ul>
+<h4 id="9"><a href="chapter9.html">第9章：地图与关卡验证</a></h4>
+<ul>
+<li>连通性检查算法</li>
+<li>资源分布均衡性</li>
+<li>难度曲线验证</li>
+<li>程序化生成内容的平衡测试</li>
+</ul>
+<h4 id="10"><a href="chapter10.html">第10章：性能与压力测试</a></h4>
+<ul>
+<li>帧率稳定性测试</li>
+<li>内存泄漏检测</li>
+<li>网络延迟模拟</li>
+<li>大规模并发测试</li>
+</ul>
+<h3 id="_5">第二部分：特定游戏类型测试</h3>
+<h4 id="11"><a href="chapter11.html">第11章：街机游戏测试</a></h4>
+<ul>
+<li>坦克大战类固定屏幕游戏</li>
+<li>超级马里奥类平台跳跃游戏</li>
+<li>帧精确输入与TAS技术</li>
+<li>分数系统与排行榜验证</li>
+</ul>
+<h4 id="12"><a href="chapter12.html">第12章：即时战略游戏测试</a></h4>
+<ul>
+<li>星际争霸/帝国时代类RTS测试</li>
+<li>单位成本效益比分析</li>
+<li>科技树平衡性验证</li>
+<li>种族/文明强度曲线测试</li>
+<li>资源采集效率模型</li>
+</ul>
+<h4 id="13"><a href="chapter13.html">第13章：动作角色扮演游戏测试</a></h4>
+<ul>
+<li>暗黑破坏神类ARPG测试</li>
+<li>装备词缀系统与极值测试</li>
+<li>DPS计算与输出循环验证</li>
+<li>暴击/闪避等概率系统测试</li>
+<li>赛季数值迭代测试</li>
+</ul>
+<h4 id="14"><a href="chapter14.html">第14章：策略游戏测试</a></h4>
+<ul>
+<li>维多利亚/三国志类策略游戏</li>
+<li>复杂经济模型验证</li>
+<li>外交系统数值权重</li>
+<li>AI难度曲线调校</li>
+<li>历史模拟准确性vs游戏性平衡</li>
+</ul>
+<h4 id="15"><a href="chapter15.html">第15章：开放世界游戏测试</a></h4>
+<ul>
+<li>原神类开放世界测试挑战</li>
+<li>角色养成成本曲线</li>
+<li>抽卡概率与保底机制验证</li>
+<li>深渊/秘境难度阶梯测试</li>
+<li>元素反应伤害系数校验</li>
+</ul>
+<h4 id="16"><a href="chapter16.html">第16章：卡牌与自走棋游戏测试</a></h4>
+<ul>
+<li>卡牌游戏平衡性测试</li>
+<li>费用曲线与节奏控制</li>
+<li>羁绊/种族加成验证</li>
+<li>随机性与竞技性平衡</li>
+<li>Meta环境预测与调整</li>
+</ul>
+<h4 id="17moba"><a href="chapter17.html">第17章：MOBA游戏数值测试</a></h4>
+<ul>
+<li>英雄强度与Ban/Pick率分析</li>
+<li>装备性价比与出装路线</li>
+<li>补刀/经济差拉开速度</li>
+<li>团战DPS与生存能力平衡</li>
+<li>版本更新影响评估</li>
+</ul>
+<h4 id="18"><a href="chapter18.html">第18章：测试自动化的未来</a></h4>
+<ul>
+<li>大语言模型在游戏测试中的应用</li>
+<li>自适应测试策略</li>
+<li>持续集成与DevOps实践</li>
+<li>云测试平台与分布式测试</li>
+</ul>
+<h3 id="_6">第三部分：工具、模板与最佳实践</h3>
+<h4 id="19"><a href="chapter19.html">第19章：测试工具生态与选型</a></h4>
+<ul>
+<li>商业vs开源测试工具对比</li>
+<li>引擎原生测试框架评估</li>
+<li>性能分析工具链</li>
+<li>自动化测试平台搭建</li>
+<li>CI/CD集成方案</li>
+</ul>
+<h4 id="20"><a href="chapter20.html">第20章：测试用例设计与管理</a></h4>
+<ul>
+<li>游戏测试用例模板库</li>
+<li>基于风险的测试设计</li>
+<li>探索性测试章程</li>
+<li>回归测试套件维护</li>
+<li>测试数据生成策略</li>
+</ul>
+<h4 id="21"><a href="chapter21.html">第21章：性能基准与度量体系</a></h4>
+<ul>
+<li>FPS/延迟/内存基准线制定</li>
+<li>用户体验量化指标</li>
+<li>数值平衡性度量方法</li>
+<li>A/B测试与数据分析</li>
+<li>竞品对标与差异分析</li>
+</ul>
+<h4 id="22"><a href="chapter22.html">第22章：测试知识体系与术语</a></h4>
+<ul>
+<li>游戏测试专业术语详解</li>
+<li>测试方法论对比分析</li>
+<li>Bug分类与优先级标准</li>
+<li>测试报告撰写规范</li>
+<li>团队协作与沟通模式</li>
+</ul>
+<h2 id="_7">学习路径建议</h2>
+<ul>
+<li><strong>初学者路径</strong>: 1→2→3→6→11→12→22</li>
+<li><strong>数值策划路径</strong>: 1→4→5→7→12→13→14→15→21</li>
+<li><strong>AI专家路径</strong>: 1→7→8→9→17→18</li>
+<li><strong>平衡性专家路径</strong>: 4→5→7→12→13→14→16→17→21</li>
+<li><strong>性能优化路径</strong>: 1→6→10→15→18→19→21</li>
+<li><strong>测试管理路径</strong>: 1→2→19→20→21→22</li>
+<li><strong>全栈测试路径</strong>: 按顺序学习所有章节</li>
+</ul>
+<h2 id="_8">实践项目</h2>
+<p>每个章节都包含6-8个练习题，涵盖基础理解和高级应用。建议读者在学习过程中：</p>
+<ol>
+<li>完成每章练习题</li>
+<li>选择一个开源游戏项目进行实践</li>
+<li>记录并分享测试发现</li>
+<li>参与社区讨论与交流</li>
+</ol>
+<hr />
+<p><em>本教程持续更新中，欢迎反馈与贡献</em></p>
+            </article>
+            
+            <nav class="page-nav"><a href="chapter1.html" class="nav-link next">第1章：游戏测试基础理论 →</a></nav>
+        </main>
+    </div>
+</body>
+</html>

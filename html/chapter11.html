@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="./">
+    <title>第11章：街机游戏测试</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/highlight.css">
+    <script src="assets/script.js" defer></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                processEscapes: false,
+                packages: {'[+]': ['noerrors', 'ams']}
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            loader: {
+                load: ['[tex]/noerrors', '[tex]/ams']
+            }
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h3>目录</h3>
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <div class="sidebar-search">
+                <input type="text" id="sidebar-search-input" placeholder="搜索..." autocomplete="off">
+            </div>
+            <div id="tree-container">
+                <nav class="tree-nav" role="tree">
+                    <div class="tree-item " >
+                        <a href="index.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">游戏测试完全指南：从人工测试到智能自动化</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter1.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第1章：游戏测试基础理论</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter2.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第2章：人工测试的艺术与科学</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter3.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第3章：作弊码与调试后门</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter4.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第4章：数值系统与经济平衡测试</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter5.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第5章：战斗平衡与职业克制测试</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter6.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第6章：自动化测试框架设计</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter7.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第7章：AI驱动的平衡性测试</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter8.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第8章：强化学习测试代理</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter9.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第9章：地图与关卡验证</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter10.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第10章：性能与压力测试</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item active" >
+                        <a href="chapter11.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第11章：街机游戏测试</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter12.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第12章：即时战略游戏测试</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter13.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第13章：动作角色扮演游戏测试</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter14.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第14章：策略游戏测试</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter15.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第15章：开放世界游戏测试</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter16.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第16章：卡牌与自走棋游戏测试</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter17.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第17章：MOBA游戏数值测试</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter18.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第18章：测试自动化的未来</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter19.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第19章：测试工具生态与选型</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter20.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第20章：测试用例设计与管理</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter21.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第21章：性能基准与度量体系</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter22.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第22章：测试知识体系与术语</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="CLAUDE.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">Untitled</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </nav>
+        
+        <main class="content">
+            <article>
+                <h1 id="11">第11章：街机游戏测试</h1>
+<p>街机游戏作为电子游戏的起源，其测试方法论奠定了现代游戏测试的基础。从1970年代的《Pong》到1980年代的黄金时期，街机游戏以其即时反馈、精确控制和递增难度的特点，要求测试人员具备对帧数据、碰撞检测和玩家心理的深刻理解。本章将深入探讨街机游戏的测试技术，包括固定屏幕游戏的边界测试、平台跳跃游戏的物理验证、TAS技术的应用以及分数系统的完整性验证。</p>
+<h2 id="111">11.1 坦克大战类固定屏幕游戏测试</h2>
+<p>固定屏幕游戏是街机时代的典型代表，玩家在一个静态的游戏场景中进行操作。这类游戏看似简单，但其测试涉及众多细节。</p>
+<h3 id="1111">11.1.1 碰撞检测精度验证</h3>
+<p>碰撞检测是固定屏幕游戏的核心机制。在坦克大战类游戏中，碰撞判定直接影响游戏的公平性和可玩性。街机时代的硬件限制使得碰撞检测必须在CPU周期和内存占用之间找到平衡，这导致了许多经典的碰撞检测优化技术的诞生。</p>
+<div class="codehilite"><pre><span></span><code>    坦克碰撞盒示意图：
+
+    ┌─────────┐     精确碰撞盒（占用更多计算）
+    │ ╔═══╗  │     
+    │ ║ T ║  │     简化碰撞盒（AABB）
+    │ ╚═══╝  │     
+    └─────────┘     
+
+    子弹轨迹：  • → → → → •
+
+    碰撞检测层级：
+
+    1. 粗检测（空间分区）
+    2. AABB包围盒检测  
+    3. 像素级精确检测（可选）
+</code></pre></div>
+
+<p>测试重点包括：</p>
+<ol>
+<li><strong>像素级精度测试</strong>：验证碰撞盒是否与视觉表现一致。常见问题是碰撞盒过大导致"幽灵碰撞"，或过小导致视觉上的穿透。测试时需要在边界情况下逐像素移动，记录碰撞触发点。</li>
+</ol>
+<p>街机游戏中的碰撞盒通常采用轴对齐包围盒（AABB），测试时需要验证：</p>
+<ul>
+<li>碰撞盒的中心点是否与精灵中心对齐</li>
+<li>旋转后的碰撞盒是否正确更新（或保持AABB不变）</li>
+<li>动画帧切换时碰撞盒的连续性</li>
+</ul>
+<ol start="2">
+<li><strong>同时碰撞处理</strong>：当多个物体同时发生碰撞时，系统的处理优先级。例如，两发子弹同时击中一个目标，是否正确计分？敌我双方坦克同时被击中时的判定顺序如何？</li>
+</ol>
+<p>优先级矩阵测试：</p>
+<div class="codehilite"><pre><span></span><code>碰撞类型优先级（从高到低）：
+
+1. 玩家-敌人（伤害判定）
+2. 子弹-目标（攻击判定）  
+3. 实体-墙体（移动限制）
+4. 道具-玩家（拾取判定）
+5. 装饰物碰撞（可忽略）
+</code></pre></div>
+
+<ol start="3">
+<li><strong>碰撞穿透问题</strong>：高速移动物体可能在单帧内穿过薄墙。测试公式为：
+   $$v_{max} &lt; \frac{d_{wall}}{dt}$$
+其中 $v_{max}$ 是物体最大速度，$d_{wall}$ 是墙体厚度，$dt$ 是帧间隔时间。</li>
+</ol>
+<p>连续碰撞检测（CCD）的测试要点：</p>
+<ul>
+<li>射线投射法：验证子弹路径上的所有碰撞点</li>
+<li>扫掠体积法：检测移动物体扫过的整个区域</li>
+<li>时间分片法：将单帧细分为多个子步骤</li>
+</ul>
+<ol start="4">
+<li>
+<p><strong>碰撞响应正确性</strong>：碰撞发生后的物理响应和游戏逻辑响应
+   - 弹性碰撞的反弹角度：$\theta_{out} = \theta_{in}$（镜面反射）
+   - 非弹性碰撞的动量守恒
+   - 碰撞后的无敌帧（i-frames）处理</p>
+</li>
+<li>
+<p><strong>性能压力测试</strong>：大量碰撞同时发生时的性能表现
+   - 弹幕模式：屏幕上同时存在100+子弹
+   - 连锁反应：一次碰撞触发多重连锁
+   - 碰撞检测的时间复杂度：理想O(n log n)，避免O(n²)</p>
+</li>
+</ol>
+<h3 id="1112-ai">11.1.2 AI路径规划验证</h3>
+<p>街机游戏的AI通常采用简单但有效的算法。测试要点需要平衡计算效率和行为智能性，早期街机硬件的限制造就了许多巧妙的AI设计模式。</p>
+<ol>
+<li><strong>路径有效性</strong>：AI是否能到达地图上所有可达位置？使用洪水填充算法验证：
+$$Reachable(p) = \bigcup_{i=1}^{n} Adjacent(Reachable(p_{i-1}))$$
+地图连通性测试方法：</li>
+</ol>
+<ul>
+<li>BFS遍历：验证从任意敌人生成点可达所有玩家可能位置</li>
+<li>死角检测：识别AI无法进入但玩家可以躲藏的区域</li>
+<li>动态障碍影响：可破坏墙体改变后的路径重算</li>
+</ul>
+<ol start="2">
+<li><strong>追踪行为一致性</strong>：AI的追踪算法是否存在震荡？当玩家位于特定位置时，AI是否会在两个决策点之间反复切换？</li>
+</ol>
+<p>常见AI行为模式及测试点：</p>
+<div class="codehilite"><pre><span></span><code>直接追踪模式：
+AI → → → Player
+
+预判模式：
+AI ↘
+   ↘ (预测点)
+Player → → →
+
+包围模式：
+AI₁ ↓
+Player ← AI₂
+AI₃ ↑
+</code></pre></div>
+
+<p>震荡检测算法：</p>
+<ul>
+<li>记录AI最近N帧的位置历史</li>
+<li>检测是否在相同的2-3个位置间循环</li>
+<li>统计方向改变频率，超过阈值判定为震荡</li>
+</ul>
+<ol start="3">
+<li><strong>难度递增曲线</strong>：验证AI的攻击频率、移动速度、预判能力是否按设计递增：
+$$Difficulty(level) = base + k \cdot \log(1 + level)$$
+具体参数调整测试：</li>
+</ol>
+<ul>
+<li>反应延迟：$Delay_{reaction} = 500ms \times (1 - 0.1 \times level)$</li>
+<li>射击精度：$Accuracy = 0.3 + 0.05 \times \min(level, 10)$</li>
+<li>移动速度：$Speed_{AI} = Speed_{base} \times (1 + 0.1 \times \sqrt{level})$</li>
+<li>协作程度：高难度下多个AI的配合行为</li>
+</ul>
+<ol start="4">
+<li>
+<p><strong>AI公平性测试</strong>：确保AI不会使用玩家无法实现的作弊行为
+   - 视野限制：AI不应该"看穿"墙壁或超出屏幕
+   - 反应时间：保持人类可能的反应延迟（&gt;100ms）
+   - 资源限制：AI的弹药、移动速度应遵守游戏规则</p>
+</li>
+<li>
+<p><strong>群体AI协调</strong>：多个AI单位的协同行为
+   - 避免拥挤：多个AI不应堆叠在同一位置
+   - 火力分配：避免所有AI同时攻击造成不公平的弹幕
+   - 战术多样性：不同AI采用不同的行为模式增加游戏深度</p>
+</li>
+</ol>
+<h3 id="1113">11.1.3 地图边界处理</h3>
+<p>边界处理看似简单，实则暗藏玄机。不同的边界处理策略会极大影响游戏的战术深度和玩家体验：</p>
+<div class="codehilite"><pre><span></span><code>    边界处理模式：
+
+    硬边界：  |█ ← tank （碰撞停止）
+    循环边界： → tank | tank ← （传送到对侧）
+    弹性边界： |← tank →| （反弹）
+    吸收边界： |× tank （销毁）
+
+    混合模式示例（不同对象不同处理）：
+    玩家：硬边界
+    子弹：吸收边界
+    敌人：弹性边界
+</code></pre></div>
+
+<p>测试场景：</p>
+<ol>
+<li>
+<p><strong>物体部分超出边界时的渲染</strong>
+   - 精灵裁剪：只渲染可见部分，避免突然消失
+   - Z-order问题：边界处物体的渲染层级
+   - 大型物体（如BOSS）的边界处理
+   - 渲染缓冲区溢出防护</p>
+</li>
+<li>
+<p><strong>子弹在边界的反弹角度计算</strong>
+   - 入射角等于反射角原则：$\theta_{out} = -\theta_{in}$
+   - 边角反弹：同时碰到两个边界的处理
+   - 反弹次数限制：避免无限反弹
+   - 反弹后的速度衰减：$v_{new} = v_{old} \times damping$</p>
+</li>
+<li>
+<p><strong>敌人生成点与边界的最小距离</strong>
+   - 安全区域定义：$d_{safe} \geq sprite_{width} + margin$
+   - 生成动画期间的无敌时间
+   - 避免"生成即死"的不公平情况
+   - 动态调整生成位置以适应玩家位置</p>
+</li>
+<li>
+<p><strong>玩家利用边界进行的非预期策略</strong>
+   - 边界卡位：利用边界限制敌人移动
+   - 安全角落：某些边角位置可能成为无敌点
+   - 边界快速移动：沿边界移动避免被包围
+   - 投射物穿墙：在边界处发射可能穿透到场外</p>
+</li>
+<li>
+<p><strong>边界数据结构与性能</strong></p>
+</li>
+</ol>
+<div class="codehilite"><pre><span></span><code>边界检测优化：
+// 快速边界检查（内联）
+if (x &lt; 0 || x &gt; MAX_X || y &lt; 0 || y &gt; MAX_Y) {
+    HandleBoundary();
+}
+
+// 分区检查（减少计算）
+区域标记：中央区（无需检查）、边缘区（需要检查）
+</code></pre></div>
+
+<ol start="6">
+<li><strong>特殊边界交互</strong>
+   - 传送门边界：特定位置连接到其他区域
+   - 伤害边界：接触边界造成伤害（如电网）
+   - 推力边界：边界处有向内的推力
+   - 时间边界：停留过久会触发特殊事件</li>
+</ol>
+<h3 id="1114">11.1.4 物体生成频率与难度平衡</h3>
+<p>生成系统的测试需要统计学方法，这是确保游戏难度曲线平滑且公平的关键：</p>
+<ol>
+<li><strong>泊松分布验证</strong>：敌人生成是否符合预期的随机分布
+$$P(k) = \frac{\lambda^k e^{-\lambda}}{k!}$$
+其中λ是平均生成率，k是时间窗口内的生成数量。测试验证：</li>
+</ol>
+<ul>
+<li>收集1000次生成数据，绘制分布直方图</li>
+<li>使用卡方检验验证是否符合理论分布</li>
+<li>异常检测：连续无生成或爆发式生成</li>
+</ul>
+<ol start="2">
+<li><strong>资源上限测试</strong>：同屏最大敌人数、子弹数、道具数的限制</li>
+</ol>
+<div class="codehilite"><pre><span></span><code>资源池管理测试矩阵：
+┌─────────────┬──────┬──────┬────────┐
+│ 对象类型     │ 上限 │ 警告 │ 处理策略│
+├─────────────┼──────┼──────┼────────┤
+│ 敌人        │  8   │  6   │ 延迟生成│
+│ 玩家子弹    │  4   │  3   │ 忽略输入│
+│ 敌人子弹    │  16  │  12  │ 回收最旧│
+│ 道具        │  3   │  2   │ 替换最旧│
+│ 特效        │  10  │  8   │ 跳过渲染│
+└─────────────┴──────┴──────┴────────┘
+</code></pre></div>
+
+<ol start="3">
+<li><strong>生成公平性</strong>：避免"生成杀"——敌人直接生成在玩家附近</li>
+</ol>
+<p>安全生成算法：
+$$Safe_{spawn}(p) = \begin{cases}
+   true &amp; \text{if } d(p, player) &gt; r_{safe} \\
+   false &amp; \text{otherwise}
+   \end{cases}$$
+其中 $r_{safe} = 2 \times sprite_{diagonal} + reaction_{time} \times speed_{player}$</p>
+<ol start="4">
+<li><strong>动态难度调整（DDA）测试</strong></li>
+</ol>
+<p>自适应难度公式：
+$$\lambda_{adjusted} = \lambda_{base} \times (1 + \alpha \times performance_{score})$$
+测试场景：</p>
+<ul>
+<li>玩家表现优秀时：生成率提升20-50%</li>
+<li>玩家濒死时：生成率降低30-40%</li>
+<li>连续死亡后：临时降低难度的"仁慈期"</li>
+</ul>
+<ol start="5">
+<li><strong>波次生成模式验证</strong></li>
+</ol>
+<div class="codehilite"><pre><span></span><code>波次生成时间轴：
+Wave 1: [==敌人==]----休息----
+Wave 2: [===敌人===]---休息---
+Wave 3: [====敌人====]--休息--
+Boss:   [====BOSS====]
+
+测试点：
+
+- 波次间隔时间的一致性
+- 波次内敌人类型的多样性
+- 波次难度的递增曲线
+</code></pre></div>
+
+<ol start="6">
+<li><strong>生成位置策略测试</strong></li>
+</ol>
+<p>位置选择算法优先级：</p>
+<ul>
+<li>优先级1：远离玩家的边缘</li>
+<li>优先级2：未被占用的生成点</li>
+<li>优先级3：战术有利位置</li>
+<li>备选方案：随机有效位置</li>
+</ul>
+<ol start="7">
+<li><strong>概率权重系统</strong></li>
+</ol>
+<p>不同敌人类型的生成概率：
+$$P(type_i) = \frac{w_i \times f(level)}{\sum_{j} w_j \times f(level)}$$
+测试验证：</p>
+<ul>
+<li>低级敌人逐渐减少</li>
+<li>高级敌人逐渐增加</li>
+<li>特殊敌人保持稀有性（&lt;5%）</li>
+</ul>
+<h2 id="112">11.2 超级马里奥类平台跳跃游戏测试</h2>
+<p>平台跳跃游戏的核心在于精确的物理模拟和流畅的操作手感。</p>
+<h3 id="1121">11.2.1 物理引擎参数验证</h3>
+<p>跳跃物理是平台游戏的灵魂，其参数调校直接影响游戏体验。从《超级马里奥》到《塞尔达传说》，精确的跳跃控制定义了整个游戏类型：</p>
+<div class="codehilite"><pre><span></span><code>    跳跃曲线分析：
+
+    高度 ↑     
+        │   ╱╲    标准跳跃（满高度）
+        │  ╱  ╲   
+        │ ╱    ╲  短按跳跃（可变高度）
+        │╱______╲_______________
+                          时间 →
+
+    关键参数：
+
+    <span class="k">-</span> 初始速度 v₀ = 480 px/s（典型值）
+    <span class="k">-</span> 重力加速度 g = 1500 px/s²
+    <span class="k">-</span> 空中控制系数 α = 0.3
+    <span class="k">-</span> 终端速度 v_terminal = 600 px/s
+</code></pre></div>
+
+<p>测试要点：</p>
+<ol>
+<li><strong>跳跃高度一致性</strong>：
+$$h_{max} = \frac{v_0^2}{2g}$$
+验证在不同帧率下跳跃高度是否保持一致</li>
+</ol>
+<p>帧率独立性测试：</p>
+<ul>
+<li>30fps：验证跳跃高度</li>
+<li>60fps：高度应相同（±1像素误差）</li>
+<li>120fps：检查浮点累积误差</li>
+<li>可变帧率：使用delta time确保一致性</li>
+</ul>
+<ol start="2">
+<li><strong>土狼时间（Coyote Time）</strong>：玩家离开平台后仍可跳跃的宽容时间，通常为3-5帧</li>
+</ol>
+<div class="codehilite"><pre><span></span><code>土狼时间状态机：
+OnPlatform → LeavePlatform → CoyoteWindow → Airborne
+                           ↓（3-5帧内）
+                        CanJump
+</code></pre></div>
+
+<p>测试用例：</p>
+<ul>
+<li>边缘跳跃：在平台边缘最后一像素起跳</li>
+<li>延迟响应：离开平台后第N帧按跳跃</li>
+<li>双重判定：土狼时间内不应允许二段跳</li>
+</ul>
+<ol start="3">
+<li><strong>跳跃缓冲（Jump Buffer）</strong>：玩家在落地前按下跳跃的预输入窗口</li>
+</ol>
+<p>缓冲机制测试：</p>
+<ul>
+<li>标准缓冲：落地前5-8帧内的输入</li>
+<li>缓冲覆盖：新输入是否覆盖旧缓冲</li>
+<li>缓冲清除：其他动作是否清空缓冲</li>
+</ul>
+<ol start="4">
+<li><strong>变高跳跃</strong>：根据按键时长调整跳跃高度的实现：
+$$v_y = \begin{cases} 
+   v_0 &amp; \text{if button held} \\
+   \min(v_y, v_{cutoff}) &amp; \text{if button released}
+   \end{cases}$$
+细节测试：</li>
+</ol>
+<ul>
+<li>最小跳跃高度：即使立即松开也要有最小高度</li>
+<li>切断时机：上升阶段才能切断，下降时无效</li>
+<li>平滑过渡：避免速度突变造成的不自然感</li>
+</ul>
+<ol start="5">
+<li><strong>多段跳跃系统</strong></li>
+</ol>
+<p>二段跳/多段跳测试：
+$$h_{double} = h_1 + \frac{v_{double}^2}{2g}$$</p>
+<ul>
+<li>跳跃次数限制与重置条件</li>
+<li>空中跳跃的初速度调整</li>
+<li>墙跳、冲刺跳等特殊跳跃</li>
+</ul>
+<ol start="6">
+<li><strong>重力调制</strong></li>
+</ol>
+<p>不同状态下的重力变化：</p>
+<div class="codehilite"><pre><span></span><code>上升阶段：g_up = 1500 px/s²
+下降阶段：g_down = 2000 px/s²（快速下落）
+滑翔状态：g_glide = 500 px/s²
+水中状态：g_water = 800 px/s²
+</code></pre></div>
+
+<ol start="7">
+<li><strong>终端速度限制</strong></li>
+</ol>
+<p>防止无限加速：
+$$v_y = \min(v_y + g \cdot dt, v_{terminal})$$
+测试长距离下落时的速度上限</p>
+<h3 id="1122">11.2.2 操作手感与响应延迟</h3>
+<p>操作手感是平台游戏成功的关键，需要从多个维度进行测试：</p>
+<ol>
+<li>
+<p><strong>输入延迟测试</strong>：从按键到角色响应的帧数，理想值应小于3帧（50ms@60fps）</p>
+</li>
+<li>
+<p><strong>动量系统验证</strong>：
+   - 加速曲线：$v(t) = v_{max}(1 - e^{-kt})$
+   - 减速曲线：$v(t) = v_0 \cdot e^{-\mu t}$
+   - 转向延迟：反向移动时的惯性表现</p>
+</li>
+<li>
+<p><strong>边缘检测优化</strong>：</p>
+</li>
+</ol>
+<div class="codehilite"><pre><span></span><code>平台边缘处理：
+
+标准碰撞：    优化后：
+┌────┐        ┌────┐
+│ P  │×       │ P  │✓
+└────┘        └────┘
+  ▔▔▔           ▔▔▔▔
+</code></pre></div>
+
+<h3 id="1123">11.2.3 关卡设计合理性验证</h3>
+<p>关卡测试不仅要验证可通过性，还要确保难度曲线合理：</p>
+<ol>
+<li>
+<p><strong>跳跃距离极限测试</strong>：
+$$d_{max} = v_x \cdot t_{air} = v_x \cdot \sqrt{\frac{2h}{g}}$$
+确保所有必要跳跃都在玩家能力范围内，留有10-15%的容错空间</p>
+</li>
+<li>
+<p><strong>节奏验证</strong>：使用马尔可夫链分析关卡节奏
+   - 平台密度分布
+   - 敌人分布间隔
+   - 休息点设置</p>
+</li>
+<li>
+<p><strong>视野问题</strong>：
+   - 盲跳检测：玩家是否需要在看不见落点的情况下跳跃
+   - 镜头跟随平滑度
+   - 危险预警距离</p>
+</li>
+</ol>
+<h3 id="1124">11.2.4 隐藏要素与秘密通道</h3>
+<p>街机游戏常包含隐藏内容以增加重玩价值：</p>
+<ol>
+<li><strong>可发现性测试</strong>：隐藏要素是否有合理的视觉/音频提示</li>
+<li><strong>奖励平衡</strong>：隐藏路线的风险收益比</li>
+<li><strong>序列破坏测试</strong>：通过隐藏通道是否会导致游戏逻辑错误</li>
+</ol>
+<h2 id="113-tas">11.3 帧精确输入与TAS技术</h2>
+<p>Tool-Assisted Speedrun (TAS) 技术不仅用于竞速，也是强大的测试工具。</p>
+<h3 id="1131">11.3.1 帧数据分析基础</h3>
+<p>街机游戏通常运行在固定帧率下（60fps或30fps），每帧16.67ms或33.33ms：</p>
+<div class="codehilite"><pre><span></span><code><span class="n">帧时间轴示例</span><span class="err">（</span><span class="mi">60</span><span class="n">fps</span><span class="err">）：</span>
+<span class="nl">Frame</span><span class="p">:</span><span class="w"> </span><span class="o">|</span><span class="w">  </span><span class="mi">1</span><span class="w">  </span><span class="o">|</span><span class="w">  </span><span class="mi">2</span><span class="w">  </span><span class="o">|</span><span class="w">  </span><span class="mi">3</span><span class="w">  </span><span class="o">|</span><span class="w">  </span><span class="mi">4</span><span class="w">  </span><span class="o">|</span><span class="w">  </span><span class="mi">5</span><span class="w">  </span><span class="o">|</span><span class="w">  </span><span class="mi">6</span><span class="w">  </span><span class="o">|</span>
+<span class="nc">Time</span><span class="err">:</span><span class="w">  </span><span class="mi">0</span><span class="n">ms</span><span class="w">  </span><span class="mf">16.67</span><span class="w"> </span><span class="mf">33.33</span><span class="w">  </span><span class="mi">50</span><span class="w">   </span><span class="mf">66.67</span><span class="w"> </span><span class="mf">83.33</span>
+<span class="k">Input</span><span class="err">:</span><span class="w"> </span><span class="o">[</span><span class="n">A</span><span class="o">]</span><span class="w">   </span><span class="o">[</span><span class="n"> </span><span class="o">]</span><span class="w">   </span><span class="o">[</span><span class="n">B</span><span class="o">]</span><span class="w">   </span><span class="o">[</span><span class="n">B</span><span class="o">]</span><span class="w">   </span><span class="o">[</span><span class="n"> </span><span class="o">]</span><span class="w">   </span><span class="o">[</span><span class="n">A+B</span><span class="o">]</span>
+<span class="k">State</span><span class="err">:</span><span class="w"> </span><span class="n">Idle</span><span class="w">  </span><span class="n">Jump</span><span class="w">  </span><span class="n">Jump</span><span class="w">  </span><span class="n">Dash</span><span class="w">  </span><span class="n">Dash</span><span class="w">  </span><span class="n">Attack</span>
+</code></pre></div>
+
+<p>关键概念：</p>
+<ul>
+<li><strong>起始帧（Startup）</strong>：动作从输入到生效的延迟</li>
+<li><strong>活动帧（Active）</strong>：动作判定有效的持续时间</li>
+<li><strong>恢复帧（Recovery）</strong>：动作结束到可执行下一动作的时间</li>
+</ul>
+<h3 id="1132">11.3.2 输入缓冲与取消系统</h3>
+<p>高级输入系统可提升操作流畅度：</p>
+<ol>
+<li>
+<p><strong>输入缓冲窗口</strong>：
+$$Buffer_{window} = \max(0, t_{current} - t_{input}) &lt; threshold$$
+典型值为3-5帧，过大会导致误操作，过小则手感僵硬</p>
+</li>
+<li>
+<p><strong>动作取消规则</strong>：
+   - 普通取消：轻攻击→重攻击
+   - 特殊取消：普通技→必杀技
+   - 跳跃取消：地面动作→空中动作</p>
+</li>
+</ol>
+<p>测试矩阵需覆盖所有可能的取消组合</p>
+<ol start="3">
+<li><strong>优先级系统</strong>：
+   当多个输入同时满足条件时的处理顺序</li>
+</ol>
+<h3 id="1133-tas">11.3.3 TAS工具原理与应用</h3>
+<p>TAS通过逐帧控制输入来达到理论最优表现：</p>
+<ol>
+<li>
+<p><strong>确定性验证</strong>：
+   相同输入序列是否总产生相同结果？随机数生成器的种子管理</p>
+</li>
+<li>
+<p><strong>极限测试用例</strong>：
+   - 最快通关路线
+   - 最高分数获取
+   - 最少按键次数
+   - 触发所有彩蛋</p>
+</li>
+<li>
+<p><strong>内存状态监控</strong>：</p>
+</li>
+</ol>
+<div class="codehilite"><pre><span></span><code>TAS测试流程：
+
+1. 保存初始状态 S₀
+2. 执行输入序列 I = {i₁, i₂, ..., iₙ}
+3. 记录每帧状态 Sₜ = f(Sₜ₋₁, iₜ)
+4. 验证最终状态 Sₙ 是否符合预期
+</code></pre></div>
+
+<h3 id="1134">11.3.4 理论最优路线验证</h3>
+<p>使用动态规划或A*算法计算理论最优解：
+$$OPT[i] = \min_{j&lt;i}\{OPT[j] + cost(j, i)\}$$
+其中 $cost(j, i)$ 表示从状态j到状态i的代价（时间/操作数）</p>
+<p>测试要点：</p>
+<ul>
+<li>人类可达性：理论最优是否在人类反应极限内</li>
+<li>容错空间：次优解与最优解的差距</li>
+<li>运气因素：依赖RNG的理论最优是否现实</li>
+</ul>
+<h2 id="114">11.4 分数系统与排行榜验证</h2>
+<p>分数系统是街机游戏的核心驱动力，其公平性和稳定性至关重要。</p>
+<h3 id="1141">11.4.1 分数溢出与边界测试</h3>
+<p>街机时代受限于硬件，分数系统常有上限：</p>
+<ol>
+<li><strong>整数溢出检测</strong>：
+   - 8位系统：最大255
+   - 16位系统：最大65,535
+   - 32位系统：最大2,147,483,647</li>
+</ol>
+<p>测试公式：
+$$Score_{next} = \min(Score_{current} + \Delta, MAX_INT)$$</p>
+<ol start="2">
+<li><strong>显示与存储不一致</strong>：</li>
+</ol>
+<div class="codehilite"><pre><span></span><code>常见问题示例：
+内部存储：1,234,567
+显示限制：999,999
+实际显示：234,567 (错误截断)
+</code></pre></div>
+
+<ol start="3">
+<li><strong>负分处理</strong>：某些游戏机制可能导致减分，需验证：
+   - 是否允许负分？
+   - 最小值限制（通常为0）
+   - UI显示负数的处理</li>
+</ol>
+<h3 id="1142">11.4.2 连击系统验证</h3>
+<p>连击（Combo）系统增加游戏深度，测试重点：</p>
+<ol>
+<li>
+<p><strong>连击窗口计算</strong>：
+$$Combo_Window = Base_Time \times (1 + \alpha \cdot \log(combo_count))$$
+验证窗口时间是否合理，避免过严或过松</p>
+</li>
+<li>
+<p><strong>分数乘数增长</strong>：</p>
+</li>
+</ol>
+<div class="codehilite"><pre><span></span><code>典型连击分数公式：
+1-5 hits:   ×1.0
+6-10 hits:  ×1.5
+11-20 hits: ×2.0
+21-50 hits: ×3.0
+50+ hits:   ×5.0
+</code></pre></div>
+
+<p>测试边界值：5→6, 10→11, 20→21, 49→50</p>
+<ol start="3">
+<li><strong>连击中断条件</strong>：
+   - 受击中断
+   - 超时中断
+   - 特定动作中断
+   - 场景切换处理</li>
+</ol>
+<h3 id="1143">11.4.3 分数获取平衡性</h3>
+<p>不同得分途径的风险收益比：</p>
+<ol>
+<li><strong>风险收益矩阵</strong>：
+$$ROI = \frac{Expected_Score}{Risk_Factor \times Time_Cost}$$</li>
+</ol>
+<p>| 行为 | 基础分数 | 风险系数 | 时间成本 | ROI |</p>
+<table>
+<thead>
+<tr>
+<th>行为</th>
+<th>基础分数</th>
+<th>风险系数</th>
+<th>时间成本</th>
+<th>ROI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>击败普通敌人</td>
+<td>100</td>
+<td>0.1</td>
+<td>2s</td>
+<td>500</td>
+</tr>
+<tr>
+<td>击败BOSS</td>
+<td>5000</td>
+<td>0.8</td>
+<td>30s</td>
+<td>208</td>
+</tr>
+<tr>
+<td>收集道具</td>
+<td>500</td>
+<td>0.3</td>
+<td>5s</td>
+<td>333</td>
+</tr>
+<tr>
+<td>完美通关</td>
+<td>10000</td>
+<td>0.9</td>
+<td>180s</td>
+<td>62</td>
+</tr>
+</tbody>
+</table>
+<ol start="2">
+<li>
+<p><strong>最优策略分析</strong>：
+   使用线性规划找出理论最高分策略，验证是否与设计意图一致</p>
+</li>
+<li>
+<p><strong>随机要素影响</strong>：
+   蒙特卡洛模拟1000次游戏，统计分数分布的均值和方差</p>
+</li>
+</ol>
+<h3 id="1144">11.4.4 排行榜数据完整性</h3>
+<p>排行榜是玩家竞争的核心，需要严格测试：</p>
+<ol>
+<li>
+<p><strong>作弊检测机制</strong>：
+   - 分数增长速度异常检测：$\frac{dScore}{dt} &gt; threshold$
+   - 理论最高分限制
+   - 时间戳验证
+   - 输入序列合理性检查</p>
+</li>
+<li>
+<p><strong>数据持久化</strong>：
+   - 断电保护
+   - 数据校验和
+   - 备份机制
+   - 版本兼容性</p>
+</li>
+<li>
+<p><strong>并发更新处理</strong>：</p>
+</li>
+</ol>
+<div class="codehilite"><pre><span></span><code>排行榜更新原子操作：
+
+1. 锁定排行榜
+2. 读取当前数据
+3. 插入新分数
+4. 重新排序
+5. 写入存储
+6. 解锁排行榜
+</code></pre></div>
+
+<ol start="4">
+<li><strong>公平性保证</strong>：
+   - 不同难度的分数分离
+   - 作弊分数的标记/移除
+   - 网络延迟补偿</li>
+</ol>
+<h2 id="_1">本章小结</h2>
+<p>街机游戏测试虽然看似简单，但其精确性要求极高。本章介绍的测试方法论涵盖了从基础的碰撞检测到高级的TAS技术应用。关键要点包括：</p>
+<ol>
+<li><strong>固定屏幕游戏</strong>的核心在于碰撞精度、AI行为一致性和边界处理</li>
+<li><strong>平台跳跃游戏</strong>需要重点关注物理参数、操作手感和关卡合理性</li>
+<li><strong>帧精确测试</strong>通过TAS技术可以发现人工测试难以触及的极限情况</li>
+<li><strong>分数系统</strong>的完整性直接影响游戏的长期可玩性和竞争公平性</li>
+</ol>
+<p>核心测试公式汇总：</p>
+<ul>
+<li>碰撞安全速度：$v_{max} &lt; \frac{d_{wall}}{dt}$</li>
+<li>跳跃高度：$h_{max} = \frac{v_0^2}{2g}$</li>
+<li>跳跃距离：$d_{max} = v_x \cdot \sqrt{\frac{2h}{g}}$</li>
+<li>输入缓冲：$Buffer_{window} = \max(0, t_{current} - t_{input}) &lt; threshold$</li>
+<li>连击窗口：$Combo_Window = Base_Time \times (1 + \alpha \cdot \log(combo_count))$</li>
+<li>风险收益：$ROI = \frac{Expected_Score}{Risk_Factor \times Time_Cost}$</li>
+</ul>
+<h2 id="gotchas">常见陷阱与错误（Gotchas）</h2>
+<h3 id="1">1. 帧率依赖问题</h3>
+<p><strong>陷阱</strong>：游戏逻辑与渲染帧率绑定，导致不同硬件上游戏速度不一致。</p>
+<p><strong>解决方案</strong>：使用固定时间步长（Fixed Timestep）：</p>
+<div class="codehilite"><pre><span></span><code>积累时间<span class="w"> </span><span class="o">+=</span><span class="w"> </span>帧间隔
+<span class="k">while</span><span class="w"> </span><span class="ss">(</span>积累时间<span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span>固定步长<span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span>更新游戏逻辑<span class="ss">()</span>
+<span class="w">    </span>积累时间<span class="w"> </span><span class="o">-=</span><span class="w"> </span>固定步长
+}
+</code></pre></div>
+
+<h3 id="2">2. 浮点数精度误差</h3>
+<p><strong>陷阱</strong>：连续的浮点运算导致位置漂移或碰撞检测失效。</p>
+<p><strong>示例</strong>：玩家站在平台上，每帧 y += 0.1 再 y -= 0.1，理论上应该不动，但实际会缓慢下沉。</p>
+<p><strong>解决方案</strong>：</p>
+<ul>
+<li>使用定点数运算</li>
+<li>关键位置使用整数坐标</li>
+<li>定期校正累积误差</li>
+</ul>
+<h3 id="3">3. 输入延迟堆积</h3>
+<p><strong>陷阱</strong>：输入缓冲过长导致操作延迟感严重，玩家按键后很久才有反应。</p>
+<p><strong>调试技巧</strong>：</p>
+<ul>
+<li>可视化输入队列长度</li>
+<li>记录输入到响应的实际帧数</li>
+<li>设置缓冲区上限</li>
+</ul>
+<h3 id="4">4. 随机数生成器误用</h3>
+<p><strong>陷阱</strong>：使用系统时间作为种子，导致TAS无法复现。</p>
+<p><strong>正确做法</strong>：</p>
+<div class="codehilite"><pre><span></span><code>初始化：seed = 固定值或关卡ID
+每帧：seed = (seed * 1103515245 + 12345) &amp; 0x7fffffff
+</code></pre></div>
+
+<h3 id="5">5. 边界条件处理不当</h3>
+<p><strong>陷阱</strong>：数组越界、除零错误、空指针访问。</p>
+<p><strong>常见场景</strong>：</p>
+<ul>
+<li>玩家在地图边缘执行特殊动作</li>
+<li>分数恰好等于排行榜最低分</li>
+<li>连击数达到未预期的高值</li>
+</ul>
+<h3 id="6">6. 状态机死锁</h3>
+<p><strong>陷阱</strong>：角色进入无法退出的状态，游戏软锁。</p>
+<p><strong>预防措施</strong>：</p>
+<ul>
+<li>每个状态设置超时机制</li>
+<li>提供强制重置键（调试版本）</li>
+<li>状态转移图完整性检查</li>
+</ul>
+<h3 id="7">7. 内存泄漏</h3>
+<p><strong>陷阱</strong>：街机游戏长时间运行，动态分配的资源未释放。</p>
+<p><strong>检测方法</strong>：</p>
+<ul>
+<li>监控内存使用趋势</li>
+<li>压力测试：快速创建/销毁大量对象</li>
+<li>使用内存分析工具</li>
+</ul>
+<h3 id="8">8. 优先级反转</h3>
+<p><strong>陷阱</strong>：低优先级的背景音乐阻塞高优先级的游戏逻辑。</p>
+<p><strong>解决方案</strong>：</p>
+<ul>
+<li>明确定义各系统优先级</li>
+<li>使用异步处理</li>
+<li>设置超时中断</li>
+</ul>
+<h2 id="_2">练习题</h2>
+<h3 id="111_1">练习 11.1：碰撞检测精度分析（基础题）</h3>
+<p>在一个坦克大战游戏中，坦克尺寸为16×16像素，子弹尺寸为4×4像素，墙体厚度为8像素。如果子弹速度为每帧12像素，坦克速度为每帧4像素，游戏运行在60fps下。请问：</p>
+<ol>
+<li>子弹是否可能穿墙？</li>
+<li>计算防止穿墙的最大安全速度</li>
+<li>如果采用连续碰撞检测，需要几次细分？</li>
+</ol>
+<p><strong>提示（Hint）</strong>：使用公式 $v_{max} &lt; \frac{d_{wall}}{dt}$，其中dt=1帧</p>
+<details>
+<summary>参考答案</summary>
+<ol>
+<li>
+<p><strong>是否可能穿墙</strong>：是的。子弹每帧移动12像素，大于墙体厚度8像素，存在穿墙风险。</p>
+</li>
+<li>
+<p><strong>最大安全速度</strong>：
+   - 墙体厚度 = 8像素
+   - 帧间隔 = 1帧
+   - 最大安全速度 = 8像素/帧
+   - 当前12像素/帧 &gt; 8像素/帧，确实会穿墙</p>
+</li>
+<li>
+<p><strong>细分次数</strong>：
+   - 需要保证每次检测步长 ≤ 8像素
+   - 细分次数 = ⌈12/8⌉ = 2次
+   - 每次检测移动6像素，可以保证不穿墙</p>
+</li>
+</ol>
+</details>
+<h3 id="112_1">练习 11.2：跳跃曲线参数计算（基础题）</h3>
+<p>某平台游戏中，角色最大跳跃高度需要达到96像素，使用重力加速度g=1200像素/秒²。游戏运行在60fps。请计算：</p>
+<ol>
+<li>所需的初始跳跃速度</li>
+<li>达到最高点的时间</li>
+<li>如果平台间距为120像素，水平速度至少需要多少？</li>
+</ol>
+<p><strong>提示（Hint）</strong>：使用公式 $h_{max} = \frac{v_0^2}{2g}$ 和 $d = v_x \cdot t_{air}$</p>
+<details>
+<summary>参考答案</summary>
+<ol>
+<li>
+<p><strong>初始跳跃速度</strong>：
+   - $h_{max} = \frac{v_0^2}{2g}$
+   - $96 = \frac{v_0^2}{2 \times 1200}$
+   - $v_0^2 = 96 \times 2400 = 230400$
+   - $v_0 = 480$ 像素/秒 = 8像素/帧</p>
+</li>
+<li>
+<p><strong>达到最高点时间</strong>：
+   - $t = \frac{v_0}{g} = \frac{480}{1200} = 0.4$ 秒
+   - 帧数 = 0.4 × 60 = 24帧</p>
+</li>
+<li>
+<p><strong>最小水平速度</strong>：
+   - 总滞空时间 = 2 × 0.4 = 0.8秒
+   - $v_x = \frac{d}{t} = \frac{120}{0.8} = 150$ 像素/秒
+   - 每帧速度 = 150/60 = 2.5像素/帧</p>
+</li>
+</ol>
+</details>
+<h3 id="113tas">练习 11.3：TAS理论最优路线（挑战题）</h3>
+<p>某关卡有3条路线：</p>
+<ul>
+<li>路线A：直线距离1000像素，无敌人，移动速度4像素/帧</li>
+<li>路线B：距离800像素，需要击败2个敌人（每个耗时30帧），移动速度4像素/帧</li>
+<li>路线C：距离1200像素，有加速道具（速度变为6像素/帧），获取道具需要20帧</li>
+</ul>
+<p>请计算哪条路线最快，并分析人类玩家的最优选择可能不同的原因。</p>
+<p><strong>提示（Hint）</strong>：分别计算总帧数，考虑人类玩家的失误率</p>
+<details>
+<summary>参考答案</summary>
+<p><strong>理论计算</strong>：</p>
+<ul>
+<li>路线A：1000/4 = 250帧</li>
+<li>路线B：800/4 + 2×30 = 200 + 60 = 260帧</li>
+<li>路线C：1200/6 + 20 = 200 + 20 = 220帧</li>
+</ul>
+<p><strong>TAS最优</strong>：路线C（220帧）</p>
+<p><strong>人类玩家考虑</strong>：</p>
+<ul>
+<li>路线A最稳定，无需精确操作</li>
+<li>路线B需要战斗技巧，可能失误导致受伤或耗时更长</li>
+<li>路线C需要精确控制获取道具的路线</li>
+</ul>
+<p>建议：新手选择A，熟练玩家选择C，路线B风险收益比最差</p>
+</details>
+<h3 id="114_1">练习 11.4：分数系统溢出检测（基础题）</h3>
+<p>某街机游戏使用16位无符号整数存储分数，显示使用6位数字。当前分数为65,000，下一个动作可获得：</p>
+<ul>
+<li>击败BOSS：10,000分</li>
+<li>完美连击奖励：5,000分</li>
+<li>时间奖励：2,000分</li>
+</ul>
+<p>请分析可能出现的问题并提出解决方案。</p>
+<p><strong>提示（Hint）</strong>：16位无符号整数最大值为65,535</p>
+<details>
+<summary>参考答案</summary>
+<p><strong>问题分析</strong>：</p>
+<ul>
+<li>当前分数：65,000</li>
+<li>16位最大值：65,535</li>
+<li>剩余空间：535分</li>
+</ul>
+<p><strong>可能的问题</strong>：</p>
+<ol>
+<li>击败BOSS（+10,000）会溢出：65,000 + 10,000 = 75,000 &gt; 65,535</li>
+<li>实际存储值：75,000 - 65,536 = 9,464（回绕）</li>
+<li>显示混乱：玩家看到分数突然变小</li>
+</ol>
+<p><strong>解决方案</strong>：</p>
+<ol>
+<li>升级到32位整数存储</li>
+<li>实施上限保护：<code>score = min(score + delta, 65535)</code></li>
+<li>当接近上限时给予特殊提示</li>
+<li>使用分段计分：满分后开启"第二周目"计分</li>
+</ol>
+</details>
+<h3 id="115">练习 11.5：连击系统边界测试（挑战题）</h3>
+<p>某游戏的连击系统规则如下：</p>
+<ul>
+<li>基础连击窗口：2秒</li>
+<li>每10连击窗口延长0.5秒</li>
+<li>最大窗口：5秒</li>
+<li>分数倍率：1-10连击×1，11-30连击×2，31-50连击×3，51+连击×5</li>
+</ul>
+<p>请设计测试用例验证：</p>
+<ol>
+<li>第9→10→11连击的窗口时间和分数倍率变化</li>
+<li>第50→51连击的边界处理</li>
+<li>窗口时间达到上限后的表现</li>
+</ol>
+<p><strong>提示（Hint）</strong>：关注边界值的前后变化</p>
+<details>
+<summary>参考答案</summary>
+<p><strong>测试用例设计</strong>：</p>
+<ol>
+<li>
+<p><strong>9→10→11连击测试</strong>：
+   - 9连击：窗口2.0秒，倍率×1
+   - 10连击：窗口2.5秒（增加0.5），倍率×1
+   - 11连击：窗口2.5秒，倍率×2（跨越边界）
+   - 验证点：窗口时间跳变、倍率切换的精确帧</p>
+</li>
+<li>
+<p><strong>50→51连击测试</strong>：
+   - 50连击：窗口4.5秒，倍率×3
+   - 51连击：窗口5.0秒（达到上限），倍率×5
+   - 验证点：倍率是否正确从×3变为×5</p>
+</li>
+<li>
+<p><strong>窗口上限测试</strong>：
+   - 60连击时：窗口应保持5.0秒（不是5.5秒）
+   - 100连击时：窗口仍为5.0秒
+   - 验证点：确认上限限制生效</p>
+</li>
+</ol>
+<p><strong>额外测试</strong>：</p>
+<ul>
+<li>在2.4999秒和2.5001秒时输入，验证窗口判定精度</li>
+<li>快速输入制造高连击，检查计算是否溢出</li>
+</ul>
+</details>
+<h3 id="116ai">练习 11.6：AI路径规划验证（挑战题）</h3>
+<p>某固定屏幕游戏地图为10×10格子，存在以下元素：</p>
+<ul>
+<li>玩家位置：(2,2)</li>
+<li>AI敌人位置：(8,8)</li>
+<li>障碍物：(5,5), (5,6), (6,5)</li>
+<li>AI使用A*算法寻路</li>
+</ul>
+<p>请分析：</p>
+<ol>
+<li>AI的最短路径长度</li>
+<li>如果玩家移动到(5,4)，AI是否会被障碍物困住？</li>
+<li>设计一个会导致AI路径震荡的玩家位置</li>
+</ol>
+<p><strong>提示（Hint）</strong>：曼哈顿距离，考虑对角线移动</p>
+<details>
+<summary>参考答案</summary>
+<ol>
+<li>
+<p><strong>最短路径分析</strong>：
+   - 不考虑障碍物：曼哈顿距离 = |8-2| + |8-2| = 12
+   - 考虑障碍物：需要绕过(5,5)区域
+   - 实际最短路径：(8,8)→(7,7)→(6,6)→(5,7)→(4,6)→(3,5)→(2,4)→(2,3)→(2,2)
+   - 路径长度：8步（假设可以对角线移动）</p>
+</li>
+<li>
+<p><strong>玩家在(5,4)时</strong>：
+   - AI不会被困住
+   - 可选路径：绕过上方(5,7)或下方(5,3)
+   - AI会选择较短的路径继续追踪</p>
+</li>
+<li>
+<p><strong>震荡位置设计</strong>：
+   - 玩家位置：(5,5.5) - 在两个障碍物中间
+   - AI在(7,5)时，向左被(6,5)阻挡，向上被(5,6)阻挡
+   - AI可能在(7,5)和(7,6)之间震荡
+   - 或者玩家在(4,5)，AI在障碍物另一侧时产生绕路震荡</p>
+</li>
+</ol>
+</details>
+<h3 id="117">练习 11.7：输入缓冲系统设计（开放性思考题）</h3>
+<p>你需要为一个格斗游戏设计输入缓冲系统。游戏运行在60fps，要求支持复杂的组合技（如↓↘→+A）。请设计：</p>
+<ol>
+<li>合理的缓冲窗口大小</li>
+<li>输入优先级规则</li>
+<li>如何处理互斥输入（如同时按左右）</li>
+<li>如何防止"Option Select"（选择性输入利用）</li>
+</ol>
+<p><strong>提示（Hint）</strong>：考虑职业玩家和普通玩家的需求差异</p>
+<details>
+<summary>参考答案</summary>
+<p><strong>设计方案</strong>：</p>
+<ol>
+<li>
+<p><strong>缓冲窗口</strong>：
+   - 普通输入：3-4帧（50-67ms）
+   - 必杀技输入：6-8帧（100-133ms）
+   - 超必杀技：10帧（167ms）
+   - 根据输入复杂度动态调整</p>
+</li>
+<li>
+<p><strong>优先级规则</strong>（从高到低）：
+   - 防御/格挡（安全优先）
+   - 超必杀技
+   - 必杀技
+   - 特殊技
+   - 重攻击
+   - 轻攻击
+   - 移动</p>
+</li>
+<li>
+<p><strong>互斥输入处理</strong>：
+   - 最新输入优先：后按的方向覆盖先按的
+   - SOCD（Simultaneous Opposite Cardinal Directions）：</p>
+<ul>
+<li>左+右 = 中立</li>
+<li>上+下 = 上（跳跃优先）</li>
+<li>提供可配置选项供竞技比赛使用</li>
+</ul>
+</li>
+<li>
+<p><strong>防止Option Select</strong>：
+   - 记录所有输入的时间戳
+   - 限制同一帧内的有效输入数量
+   - 必杀技输入需要明确的时序，不接受同帧多个方向
+   - 增加输入验证：某些技能互斥，不能同时缓冲</p>
+</li>
+</ol>
+<p><strong>额外考虑</strong>：</p>
+<ul>
+<li>提供训练模式显示输入历史</li>
+<li>可调节的辅助选项给新手玩家</li>
+<li>录制输入序列用于replay和作弊检测</li>
+</ul>
+</details>
+<h3 id="118">练习 11.8：排行榜作弊检测算法（开放性思考题）</h3>
+<p>设计一个街机游戏排行榜的作弊检测系统，需要识别：</p>
+<ol>
+<li>分数异常增长</li>
+<li>不可能的游戏时长</li>
+<li>统计学上不合理的表现</li>
+<li>工具辅助（TAS）的痕迹</li>
+</ol>
+<p>请给出具体的检测指标和阈值建议。</p>
+<p><strong>提示（Hint）</strong>：结合多个维度的数据进行综合判断</p>
+<details>
+<summary>参考答案</summary>
+<p><strong>综合检测方案</strong>：</p>
+<ol>
+<li>
+<p><strong>分数增长速度检测</strong>：
+   - 指标：分数增长率 $\frac{dS}{dt}$
+   - 阈值：不超过理论最大值的120%
+   - 检测窗口：每30秒计算一次平均增长率
+   - 异常标记：连续3个窗口超过阈值</p>
+</li>
+<li>
+<p><strong>游戏时长合理性</strong>：
+   - 最短时间：不可能快于TAS最速记录的95%
+   - 最长时间：单局游戏超过3小时需要额外验证
+   - 关卡用时：每关时间应符合正态分布
+   - 标准差检测：超过3σ视为异常</p>
+</li>
+<li>
+<p><strong>统计异常检测</strong>：
+   - 命中率：长期统计不应超过人类极限（如射击游戏95%）
+   - 无伤通关：计算概率，低于0.1%需要验证
+   - 道具获取：随机道具的分布应符合预期
+   - 使用贝叶斯推断计算作弊概率</p>
+</li>
+<li>
+<p><strong>TAS特征识别</strong>：
+   - 输入精度：帧级精确输入的频率
+   - 输入模式：检测非人类的规律性（如每16帧按一次）
+   - 反应时间：低于人类极限（100ms）的反应
+   - RNG利用：过于"幸运"的随机事件</p>
+</li>
+</ol>
+<p><strong>综合评分系统</strong>：</p>
+<div class="codehilite"><pre><span></span><code>作弊风险分 = w1×分数异常 + w2×时长异常 + w3×统计异常 + w4×TAS特征
+其中 w1=0.3, w2=0.2, w3=0.3, w4=0.2
+
+风险等级：
+
+- 0-30分：正常
+- 31-60分：可疑，需要人工复核
+- 61-80分：高度可疑，暂时隐藏分数
+- 81-100分：确认作弊，移除记录
+</code></pre></div>
+
+<p><strong>补充措施</strong>：</p>
+<ul>
+<li>保存关键操作的replay数据</li>
+<li>要求高分玩家提供录像</li>
+<li>实施硬件指纹识别</li>
+<li>社区举报机制</li>
+</ul>
+</details>
+            </article>
+            
+            <nav class="page-nav"><a href="chapter10.html" class="nav-link prev">← 第10章：性能与压力测试</a><a href="chapter12.html" class="nav-link next">第12章：即时战略游戏测试 →</a></nav>
+        </main>
+    </div>
+</body>
+</html>
