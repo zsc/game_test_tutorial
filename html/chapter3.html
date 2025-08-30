@@ -989,250 +989,263 @@ $$State_{client} \neq State_{server}$$
 <details>
 <summary>参考答案</summary>
 <p>数据结构设计：</p>
-<div class="codehilite"><pre><span></span><code>CVar基类：
+<div class="codehilite"><pre><span></span><code><span class="n">CVar基类</span><span class="err">：</span>
 
--<span class="w"> </span>name:<span class="w"> </span>变量名
--<span class="w"> </span>description:<span class="w"> </span>描述
--<span class="w"> </span>flags:<span class="w"> </span>权限标记
--<span class="w"> </span>defaultValue:<span class="w"> </span>默认值（泛型）
--<span class="w"> </span>currentValue:<span class="w"> </span>当前值（泛型）
--<span class="w"> </span>minValue/maxValue:<span class="w"> </span>范围限制（可选）
--<span class="w"> </span>callback:<span class="w"> </span>值改变回调
+<span class="o">-</span><span class="w"> </span><span class="n">name</span><span class="o">:</span><span class="w"> </span><span class="err">变量名</span>
+<span class="o">-</span><span class="w"> </span><span class="n">description</span><span class="o">:</span><span class="w"> </span><span class="err">描述</span>
+<span class="o">-</span><span class="w"> </span><span class="n">flags</span><span class="o">:</span><span class="w"> </span><span class="err">权限标记</span>
+<span class="o">-</span><span class="w"> </span><span class="n">defaultValue</span><span class="o">:</span><span class="w"> </span><span class="err">默认值（泛型）</span>
+<span class="o">-</span><span class="w"> </span><span class="n">currentValue</span><span class="o">:</span><span class="w"> </span><span class="err">当前值（泛型）</span>
+<span class="o">-</span><span class="w"> </span><span class="n">minValue</span><span class="o">/</span><span class="n">maxValue</span><span class="o">:</span><span class="w"> </span><span class="err">范围限制（可选）</span>
+<span class="o">-</span><span class="w"> </span><span class="n">callback</span><span class="o">:</span><span class="w"> </span><span class="err">值改变回调</span>
 
-主要接口：
+<span class="err">主要接口：</span>
 
-1.<span class="w"> </span>Register(name,<span class="w"> </span>default,<span class="w"> </span>min,<span class="w"> </span>max,<span class="w"> </span>flags)
-2.<span class="w"> </span>Set(name,<span class="w"> </span>value)<span class="w"> </span>-&gt;<span class="w"> </span>bool
-3.<span class="w"> </span>Get(name)<span class="w"> </span>-&gt;<span class="w"> </span>value
-4.<span class="w"> </span>Reset(name)
-5.<span class="w"> </span>List(pattern)<span class="w"> </span>-&gt;<span class="w"> </span>CVar[]
-
-验证逻辑：
-
--<span class="w"> </span>类型检查：运行时类型验证
--<span class="w"> </span>范围检查：min<span class="w"> </span><span class="err">&lt;</span>=<span class="w"> </span>value<span class="w"> </span><span class="err">&lt;</span>=<span class="w"> </span>max
--<span class="w"> </span>权限检查：当前用户权限<span class="w"> </span>&gt;=<span class="w"> </span>CVar权限
--<span class="w"> </span>回调触发：值改变时通知系统
-
-存储考虑：
-
--<span class="w"> </span>使用哈希表快速查找
--<span class="w"> </span>支持配置文件持久化
--<span class="w"> </span>分类管理（渲染、游戏性、调试等）
-<span class="nt">&lt;/details&gt;</span>
-
-**练习3.3：时间缩放计算**
-游戏以60<span class="w"> </span>FPS运行，实现了0.1x到10x的时间缩放。如果一个动画原本需要2秒完成，在不同时间缩放下，实际需要多少真实时间？物理引擎固定步长为0.02秒，如何处理极端时间缩放？
-
-*提示：考虑物理稳定性和帧率限制。*
-
-<span class="nt">&lt;details</span><span class="w"> </span><span class="na">markdown=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
-<span class="nt">&lt;summary&gt;</span>参考答案<span class="nt">&lt;/summary&gt;</span>
-
-时间计算：
-
--<span class="w"> </span>0.1x：2秒<span class="w"> </span>÷<span class="w"> </span>0.1<span class="w"> </span>=<span class="w"> </span>20秒真实时间
--<span class="w"> </span>0.5x：2秒<span class="w"> </span>÷<span class="w"> </span>0.5<span class="w"> </span>=<span class="w"> </span>4秒真实时间
--<span class="w"> </span>1.0x：2秒<span class="w"> </span>÷<span class="w"> </span>1.0<span class="w"> </span>=<span class="w"> </span>2秒真实时间
--<span class="w"> </span>2.0x：2秒<span class="w"> </span>÷<span class="w"> </span>2.0<span class="w"> </span>=<span class="w"> </span>1秒真实时间
--<span class="w"> </span>10x：2秒<span class="w"> </span>÷<span class="w"> </span>10<span class="w"> </span>=<span class="w"> </span>0.2秒真实时间
-
-物理引擎处理：
-
-1.<span class="w"> </span>慢速（<span class="nt">&lt;1.0x</span><span class="err">）：</span>
-<span class="w">   </span><span class="err">-</span><span class="w"> </span><span class="err">物理步长不变（0.02秒）</span>
-<span class="w">   </span><span class="err">-</span><span class="w"> </span><span class="err">减少每帧物理更新次数</span>
-
-<span class="err">2.</span><span class="w"> </span><span class="err">快速（</span><span class="nt">&gt;</span>1.0x）：
-<span class="w">   </span>-<span class="w"> </span>每帧多次物理更新
-<span class="w">   </span>-<span class="w"> </span>10x时每帧需要：10<span class="w"> </span>×<span class="w"> </span>(1/60)<span class="w"> </span>÷<span class="w"> </span>0.02<span class="w"> </span>≈<span class="w"> </span>8.3次
-<span class="w">   </span>-<span class="w"> </span>设置上限防止卡顿（如最多10次/帧）
-
-3.<span class="w"> </span>极端情况处理：
-<span class="w">   </span>-<span class="w"> </span>累积时间差
-<span class="w">   </span>-<span class="w"> </span>使用内插或外推
-<span class="w">   </span>-<span class="w"> </span>可选：动态调整物理步长（影响稳定性）
-<span class="nt">&lt;/details&gt;</span>
-
-###<span class="w"> </span>挑战题
-
-**练习3.4：防作弊设计**
-设计一个既支持开发调试又能防止玩家滥用的作弊码系统。要求：开发版本完整功能，测试版本部分功能，正式版本安全限制。描述你的多层防护策略。
-
-*提示：考虑编译时和运行时的不同策略。*
-
-<span class="nt">&lt;details</span><span class="w"> </span><span class="na">markdown=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
-<span class="nt">&lt;summary&gt;</span>参考答案<span class="nt">&lt;/summary&gt;</span>
-
-多层防护策略：
-
-1.<span class="w"> </span>**编译时分离**：
-<span class="w">   </span>-<span class="w"> </span>Debug：所有功能，明文存储
-<span class="w">   </span>-<span class="w"> </span>Test：部分功能，简单加密
-<span class="w">   </span>-<span class="w"> </span>Release：最小功能集，强加密
-
-2.<span class="w"> </span>**运行时验证**：
-<span class="w">   </span>-<span class="w"> </span>设备指纹绑定：MAC地址<span class="w"> </span>+<span class="w"> </span>CPU<span class="w"> </span>ID
-<span class="w">   </span>-<span class="w"> </span>时间窗口：作弊码24小时后失效
-<span class="w">   </span>-<span class="w"> </span>使用次数限制：单个码最多使用N次
-<span class="w">   </span>-<span class="w"> </span>网络验证：关键作弊码需服务器授权
-
-3.<span class="w"> </span>**混淆技术**：
-<span class="w">   </span>-<span class="w"> </span>代码混淆：作弊码字符串加密存储
-<span class="w">   </span>-<span class="w"> </span>输入变换：f(input)<span class="w"> </span>=<span class="w"> </span>rot13(base64(input))
-<span class="w">   </span>-<span class="w"> </span>动态生成：基于日期生成当日有效码
-<span class="w">   </span>-<span class="w"> </span>假作弊码：误导逆向工程
-
-4.<span class="w"> </span>**监控与分析**：
-<span class="w">   </span>-<span class="w"> </span>记录作弊码使用日志
-<span class="w">   </span>-<span class="w"> </span>异常使用模式检测
-<span class="w">   </span>-<span class="w"> </span>自动封禁机制
-<span class="w">   </span>-<span class="w"> </span>数据完整性校验
-
-5.<span class="w"> </span>**分级权限**：
-<span class="w">   </span>-<span class="w"> </span>公开码：基础功能（如跳过教程）
-<span class="w">   </span>-<span class="w"> </span>内部码：测试功能（如等级提升）
-<span class="w">   </span>-<span class="w"> </span>开发码：系统功能（如资源重载）
-<span class="w">   </span>-<span class="w"> </span>紧急码：修复功能（如卡关解除）
-<span class="nt">&lt;/details&gt;</span>
-
-**练习3.5：状态快照优化**
-游戏世界包含10000个实体，每个实体平均100字节状态数据。设计一个高效的快照系统，要求：支持100个快照槽位，快速保存/加载（<span class="nt">&lt;100ms</span><span class="err">），内存占用&lt;50MB。</span>
-
-<span class="err">*提示：考虑增量压缩和共享数据结构。*</span>
-
-<span class="err">&lt;details</span><span class="w"> </span><span class="na">markdown=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
-<span class="nt">&lt;summary&gt;</span>参考答案<span class="nt">&lt;/summary&gt;</span>
-
-优化策略：
-
-1.<span class="w"> </span>**数据分析**：
-<span class="w">   </span>-<span class="w"> </span>原始大小：10000<span class="w"> </span>×<span class="w"> </span>100<span class="w"> </span>=<span class="w"> </span>1MB/快照
-<span class="w">   </span>-<span class="w"> </span>100快照：100MB（超出限制）
-
-2.<span class="w"> </span>**增量存储系统**：
-<span class="w">   </span>-<span class="w"> </span>关键帧：每10个快照一个完整帧（1MB）
-<span class="w">   </span>-<span class="w"> </span>增量帧：只存储变化（约10-20%数据）
-<span class="w">   </span>-<span class="w"> </span>内存估算：10<span class="w"> </span>×<span class="w"> </span>1MB<span class="w"> </span>+<span class="w"> </span>90<span class="w"> </span>×<span class="w"> </span>0.15MB<span class="w"> </span>≈<span class="w"> </span>23.5MB
-
-3.<span class="w"> </span>**压缩技术**：
-<span class="w">   </span>-<span class="w"> </span>位打包：布尔值和小整数压缩
-<span class="w">   </span>-<span class="w"> </span>字典编码：重复字符串使用索引
-<span class="w">   </span>-<span class="w"> </span>LZ4压缩：快速压缩算法（3:1压缩比）
-<span class="w">   </span>-<span class="w"> </span>最终大小：23.5MB<span class="w"> </span>÷<span class="w"> </span>3<span class="w"> </span>≈<span class="w"> </span>8MB
-
-4.<span class="w"> </span>**数据结构优化**：
-<span class="w">   </span>-<span class="w"> </span>Copy-on-Write：共享未修改数据
-<span class="w">   </span>-<span class="w"> </span>对象池：重用快照对象
-<span class="w">   </span>-<span class="w"> </span>环形缓冲：自动覆盖最旧快照
-
-5.<span class="w"> </span>**性能优化**：
-<span class="w">   </span>-<span class="w"> </span>多线程压缩：并行处理实体组
-<span class="w">   </span>-<span class="w"> </span>异步I/O：后台保存/加载
-<span class="w">   </span>-<span class="w"> </span>脏标记：只处理修改的实体
-<span class="w">   </span>-<span class="w"> </span>预测预取：提前加载可能的快照
-
-实现验证：
-
--<span class="w"> </span>保存时间：~50ms（并行压缩）
--<span class="w"> </span>加载时间：~30ms（预解压缩）
--<span class="w"> </span>内存占用：<span class="nt">&lt;10MB</span><span class="err">（高压缩比）</span>
-<span class="err">&lt;/details</span><span class="nt">&gt;</span>
-
-**练习3.6：控制台命令解析器**
-设计一个支持复杂命令的解析器，要求：支持管道（|）、重定向（&gt;）、变量替换（$var）、命令组合（<span class="err">&amp;&amp;</span>、||）。给出语法设计和解析算法。
-
-*提示：参考Unix<span class="w"> </span>shell的设计理念。*
-
-<span class="nt">&lt;details</span><span class="w"> </span><span class="na">markdown=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
-<span class="nt">&lt;summary&gt;</span>参考答案<span class="nt">&lt;/summary&gt;</span>
-
-语法设计（简化BNF）：
+<span class="mf">1.</span><span class="w"> </span><span class="n">Register</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="p">,</span><span class="w"> </span><span class="nf">min</span><span class="p">,</span><span class="w"> </span><span class="nf">max</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="p">)</span>
+<span class="mf">2.</span><span class="w"> </span><span class="nf">Set</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">bool</span>
+<span class="mf">3.</span><span class="w"> </span><span class="n">Get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">value</span>
+<span class="mf">4.</span><span class="w"> </span><span class="n">Reset</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="mf">5.</span><span class="w"> </span><span class="n">List</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">CVar</span><span class="p">[]</span>
 </code></pre></div>
 
-<p>command_line ::= pipeline { ("&amp;&amp;" | "||") pipeline }
-pipeline ::= command { "|" command }
-command ::= word { argument } [ redirection ]
-argument ::= word | "$" word | quoted_string
-redirection ::= "&gt;" filename
-word ::= [a-zA-Z0-9_]+
-quoted_string ::= '"' .* '"'</p>
-<div class="codehilite"><pre><span></span><code>解析算法：
-
-1. **词法分析**：
-   <span class="k">-</span> Token类型：WORD, PIPE, AND, OR, REDIRECT, VAR, STRING
-   <span class="k">-</span> 处理转义字符和引号
-   <span class="k">-</span> 识别特殊符号
-
-2. **语法分析（递归下降）**：
+<p>验证逻辑：</p>
+<ul>
+<li>类型检查：运行时类型验证</li>
+<li>范围检查：min &lt;= value &lt;= max</li>
+<li>权限检查：当前用户权限 &gt;= CVar权限</li>
+<li>回调触发：值改变时通知系统</li>
+</ul>
+<p>存储考虑：</p>
+<ul>
+<li>使用哈希表快速查找</li>
+<li>支持配置文件持久化</li>
+<li>分类管理（渲染、游戏性、调试等）</li>
+</ul>
+</details>
+<p><strong>练习3.3：时间缩放计算</strong>
+游戏以60 FPS运行，实现了0.1x到10x的时间缩放。如果一个动画原本需要2秒完成，在不同时间缩放下，实际需要多少真实时间？物理引擎固定步长为0.02秒，如何处理极端时间缩放？</p>
+<p><em>提示：考虑物理稳定性和帧率限制。</em></p>
+<details>
+<summary>参考答案</summary>
+<p>时间计算：</p>
+<ul>
+<li>0.1x：2秒 ÷ 0.1 = 20秒真实时间</li>
+<li>0.5x：2秒 ÷ 0.5 = 4秒真实时间</li>
+<li>1.0x：2秒 ÷ 1.0 = 2秒真实时间</li>
+<li>2.0x：2秒 ÷ 2.0 = 1秒真实时间</li>
+<li>10x：2秒 ÷ 10 = 0.2秒真实时间</li>
+</ul>
+<p>物理引擎处理：</p>
+<ol>
+<li>
+<p>慢速（&lt;1.0x）：
+   - 物理步长不变（0.02秒）
+   - 减少每帧物理更新次数</p>
+</li>
+<li>
+<p>快速（&gt;1.0x）：
+   - 每帧多次物理更新
+   - 10x时每帧需要：10 × (1/60) ÷ 0.02 ≈ 8.3次
+   - 设置上限防止卡顿（如最多10次/帧）</p>
+</li>
+<li>
+<p>极端情况处理：
+   - 累积时间差
+   - 使用内插或外推
+   - 可选：动态调整物理步长（影响稳定性）</p>
+</li>
+</ol>
+</details>
+<h3 id="_4">挑战题</h3>
+<p><strong>练习3.4：防作弊设计</strong>
+设计一个既支持开发调试又能防止玩家滥用的作弊码系统。要求：开发版本完整功能，测试版本部分功能，正式版本安全限制。描述你的多层防护策略。</p>
+<p><em>提示：考虑编译时和运行时的不同策略。</em></p>
+<details>
+<summary>参考答案</summary>
+<p>多层防护策略：</p>
+<ol>
+<li>
+<p><strong>编译时分离</strong>：
+   - Debug：所有功能，明文存储
+   - Test：部分功能，简单加密
+   - Release：最小功能集，强加密</p>
+</li>
+<li>
+<p><strong>运行时验证</strong>：
+   - 设备指纹绑定：MAC地址 + CPU ID
+   - 时间窗口：作弊码24小时后失效
+   - 使用次数限制：单个码最多使用N次
+   - 网络验证：关键作弊码需服务器授权</p>
+</li>
+<li>
+<p><strong>混淆技术</strong>：
+   - 代码混淆：作弊码字符串加密存储
+   - 输入变换：f(input) = rot13(base64(input))
+   - 动态生成：基于日期生成当日有效码
+   - 假作弊码：误导逆向工程</p>
+</li>
+<li>
+<p><strong>监控与分析</strong>：
+   - 记录作弊码使用日志
+   - 异常使用模式检测
+   - 自动封禁机制
+   - 数据完整性校验</p>
+</li>
+<li>
+<p><strong>分级权限</strong>：
+   - 公开码：基础功能（如跳过教程）
+   - 内部码：测试功能（如等级提升）
+   - 开发码：系统功能（如资源重载）
+   - 紧急码：修复功能（如卡关解除）</p>
+</li>
+</ol>
+</details>
+<p><strong>练习3.5：状态快照优化</strong>
+游戏世界包含10000个实体，每个实体平均100字节状态数据。设计一个高效的快照系统，要求：支持100个快照槽位，快速保存/加载（&lt;100ms），内存占用&lt;50MB。</p>
+<p><em>提示：考虑增量压缩和共享数据结构。</em></p>
+<details>
+<summary>参考答案</summary>
+<p>优化策略：</p>
+<ol>
+<li>
+<p><strong>数据分析</strong>：
+   - 原始大小：10000 × 100 = 1MB/快照
+   - 100快照：100MB（超出限制）</p>
+</li>
+<li>
+<p><strong>增量存储系统</strong>：
+   - 关键帧：每10个快照一个完整帧（1MB）
+   - 增量帧：只存储变化（约10-20%数据）
+   - 内存估算：10 × 1MB + 90 × 0.15MB ≈ 23.5MB</p>
+</li>
+<li>
+<p><strong>压缩技术</strong>：
+   - 位打包：布尔值和小整数压缩
+   - 字典编码：重复字符串使用索引
+   - LZ4压缩：快速压缩算法（3:1压缩比）
+   - 最终大小：23.5MB ÷ 3 ≈ 8MB</p>
+</li>
+<li>
+<p><strong>数据结构优化</strong>：
+   - Copy-on-Write：共享未修改数据
+   - 对象池：重用快照对象
+   - 环形缓冲：自动覆盖最旧快照</p>
+</li>
+<li>
+<p><strong>性能优化</strong>：
+   - 多线程压缩：并行处理实体组
+   - 异步I/O：后台保存/加载
+   - 脏标记：只处理修改的实体
+   - 预测预取：提前加载可能的快照</p>
+</li>
+</ol>
+<p>实现验证：</p>
+<ul>
+<li>保存时间：~50ms（并行压缩）</li>
+<li>加载时间：~30ms（预解压缩）</li>
+<li>内存占用：&lt;10MB（高压缩比）</li>
+</ul>
+</details>
+<p><strong>练习3.6：控制台命令解析器</strong>
+设计一个支持复杂命令的解析器，要求：支持管道（|）、重定向（&gt;）、变量替换（$var）、命令组合（&amp;&amp;、||）。给出语法设计和解析算法。</p>
+<p><em>提示：参考Unix shell的设计理念。</em></p>
+<details>
+<summary>参考答案</summary>
+<p>语法设计（简化BNF）：</p>
+<div class="codehilite"><pre><span></span><code><span class="nv">command_line</span><span class="w"> </span><span class="o">::=</span><span class="w"> </span><span class="nv">pipeline</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;&amp;&amp;&quot;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s">&quot;||&quot;</span><span class="p">)</span><span class="w"> </span><span class="nv">pipeline</span><span class="w"> </span><span class="p">}</span>
+<span class="nv">pipeline</span><span class="w"> </span><span class="o">::=</span><span class="w"> </span><span class="nv">command</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;|&quot;</span><span class="w"> </span><span class="nv">command</span><span class="w"> </span><span class="p">}</span>
+<span class="nv">command</span><span class="w"> </span><span class="o">::=</span><span class="w"> </span><span class="nv">word</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nv">argument</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="nv">redirection</span><span class="w"> </span><span class="p">]</span>
+<span class="nv">argument</span><span class="w"> </span><span class="o">::=</span><span class="w"> </span><span class="nv">word</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s">&quot;$&quot;</span><span class="w"> </span><span class="nv">word</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nv">quoted_string</span>
+<span class="nv">redirection</span><span class="w"> </span><span class="o">::=</span><span class="w"> </span><span class="s">&quot;&gt;&quot;</span><span class="w"> </span><span class="nv">filename</span>
+<span class="nv">word</span><span class="w"> </span><span class="o">::=</span><span class="w"> </span><span class="p">[</span><span class="nv">a</span><span class="o">-</span><span class="nv">zA</span><span class="o">-</span><span class="nv">Z0</span><span class="o">-</span><span class="mi">9</span><span class="nv">_</span><span class="p">]</span><span class="o">+</span>
+<span class="nv">quoted_string</span><span class="w"> </span><span class="o">::=</span><span class="w"> </span><span class="o">&#39;</span><span class="s">&quot;&#39; .* &#39;&quot;</span><span class="o">&#39;</span>
 </code></pre></div>
 
-<p>ParseCommandLine():
-  left = ParsePipeline()
-  while token in [AND, OR]:
-    op = token
-    right = ParsePipeline()
-    left = BinaryOp(op, left, right)
-  return left</p>
-<p>ParsePipeline():
-  commands = [ParseCommand()]
-  while token == PIPE:
-    commands.append(ParseCommand())
-  return Pipeline(commands)</p>
-<div class="codehilite"><pre><span></span><code>3.<span class="w"> </span>**执行策略**：
-<span class="w">   </span>-<span class="w"> </span>管道：创建进程间通信
-<span class="w">   </span>-<span class="w"> </span><span class="err">&amp;&amp;</span>：前命令成功才执行后命令
-<span class="w">   </span>-<span class="w"> </span>||：前命令失败才执行后命令
-<span class="w">   </span>-<span class="w"> </span>变量替换：查找变量表
-<span class="w">   </span>-<span class="w"> </span>重定向：捕获输出到文件
+<p>解析算法：</p>
+<ol>
+<li>
+<p><strong>词法分析</strong>：
+   - Token类型：WORD, PIPE, AND, OR, REDIRECT, VAR, STRING
+   - 处理转义字符和引号
+   - 识别特殊符号</p>
+</li>
+<li>
+<p><strong>语法分析（递归下降）</strong>：</p>
+</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="nv">ParseCommandLine</span><span class="ss">()</span>:
+<span class="w">  </span><span class="nv">left</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">ParsePipeline</span><span class="ss">()</span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="nv">token</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span>[<span class="nv">AND</span>,<span class="w"> </span><span class="nv">OR</span>]:
+<span class="w">    </span><span class="nv">op</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">token</span>
+<span class="w">    </span><span class="nv">right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">ParsePipeline</span><span class="ss">()</span>
+<span class="w">    </span><span class="nv">left</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">BinaryOp</span><span class="ss">(</span><span class="nv">op</span>,<span class="w"> </span><span class="nv">left</span>,<span class="w"> </span><span class="nv">right</span><span class="ss">)</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nv">left</span>
 
-4.<span class="w"> </span>**错误处理**：
-<span class="w">   </span>-<span class="w"> </span>语法错误：提供位置信息
-<span class="w">   </span>-<span class="w"> </span>运行时错误：优雅降级
-<span class="w">   </span>-<span class="w"> </span>自动补全：基于解析树
-
-示例解析：
-&quot;god<span class="w"> </span>|<span class="w"> </span>grep<span class="w"> </span>player<span class="w"> </span><span class="err">&amp;&amp;</span><span class="w"> </span>teleport<span class="w"> </span>$spawn<span class="w"> </span>&gt;<span class="w"> </span>log.txt&quot;
-→<span class="w"> </span>Pipeline(God,<span class="w"> </span>Grep)<span class="w"> </span>AND<span class="w"> </span>Command(Teleport,<span class="w"> </span>Var(spawn),<span class="w"> </span>Redirect(log.txt))
-<span class="nt">&lt;/details&gt;</span>
-
-**练习3.7：回放系统同步性**
-设计一个确定性回放系统，需要处理：浮点数精度、多线程、随机数、网络延迟。描述如何保证在不同机器上的回放一致性。
-
-*提示：考虑IEEE<span class="w"> </span>754标准和确定性要求。*
-
-<span class="nt">&lt;details</span><span class="w"> </span><span class="na">markdown=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
-<span class="nt">&lt;summary&gt;</span>参考答案<span class="nt">&lt;/summary&gt;</span>
-
-确定性保证策略：
-
-1.<span class="w"> </span>**浮点数处理**：
-<span class="w">   </span>-<span class="w"> </span>强制IEEE<span class="w"> </span>754严格模式
-<span class="w">   </span>-<span class="w"> </span>禁用快速数学优化（-ffast-math）
-<span class="w">   </span>-<span class="w"> </span>使用定点数或固定精度
-<span class="w">   </span>-<span class="w"> </span>关键计算使用软件浮点库
-<span class="w">   </span>-<span class="w"> </span>定期同步校验和
-
-2.<span class="w"> </span>**多线程同步**：
-<span class="w">   </span>-<span class="w"> </span>逻辑线程与渲染线程分离
-<span class="w">   </span>-<span class="w"> </span>固定更新顺序（确定性调度）
-<span class="w">   </span>-<span class="w"> </span>使用逻辑帧而非时间
-<span class="w">   </span>-<span class="w"> </span>禁用并行物理计算
-<span class="w">   </span>-<span class="w"> </span>原子操作记录与回放
-
-3.<span class="w"> </span>**随机数管理**：
-<span class="w">   </span>-<span class="w"> </span>独立的RNG种子管理
-<span class="w">   </span>-<span class="w"> </span>每个系统独立种子
-<span class="w">   </span>-<span class="w"> </span>记录种子和调用次数
-<span class="w">   </span>-<span class="w"> </span>回放时恢复相同序列
+<span class="nv">ParsePipeline</span><span class="ss">()</span>:
+<span class="w">  </span><span class="nv">commands</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>[<span class="nv">ParseCommand</span><span class="ss">()</span>]
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="nv">token</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nv">PIPE</span>:
+<span class="w">    </span><span class="nv">commands</span>.<span class="nv">append</span><span class="ss">(</span><span class="nv">ParseCommand</span><span class="ss">())</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nv">Pipeline</span><span class="ss">(</span><span class="nv">commands</span><span class="ss">)</span>
 </code></pre></div>
 
-<p>struct RNGState {
+<ol start="3">
+<li>
+<p><strong>执行策略</strong>：
+   - 管道：创建进程间通信
+   - &amp;&amp;：前命令成功才执行后命令
+   - ||：前命令失败才执行后命令
+   - 变量替换：查找变量表
+   - 重定向：捕获输出到文件</p>
+</li>
+<li>
+<p><strong>错误处理</strong>：
+   - 语法错误：提供位置信息
+   - 运行时错误：优雅降级
+   - 自动补全：基于解析树</p>
+</li>
+</ol>
+<p>示例解析：
+"god | grep player &amp;&amp; teleport $spawn &gt; log.txt"
+→ Pipeline(God, Grep) AND Command(Teleport, Var(spawn), Redirect(log.txt))</p>
+</details>
+<p><strong>练习3.7：回放系统同步性</strong>
+设计一个确定性回放系统，需要处理：浮点数精度、多线程、随机数、网络延迟。描述如何保证在不同机器上的回放一致性。</p>
+<p><em>提示：考虑IEEE 754标准和确定性要求。</em></p>
+<details>
+<summary>参考答案</summary>
+<p>确定性保证策略：</p>
+<ol>
+<li>
+<p><strong>浮点数处理</strong>：
+   - 强制IEEE 754严格模式
+   - 禁用快速数学优化（-ffast-math）
+   - 使用定点数或固定精度
+   - 关键计算使用软件浮点库
+   - 定期同步校验和</p>
+</li>
+<li>
+<p><strong>多线程同步</strong>：
+   - 逻辑线程与渲染线程分离
+   - 固定更新顺序（确定性调度）
+   - 使用逻辑帧而非时间
+   - 禁用并行物理计算
+   - 原子操作记录与回放</p>
+</li>
+<li>
+<p><strong>随机数管理</strong>：
+   - 独立的RNG种子管理
+   - 每个系统独立种子
+   - 记录种子和调用次数
+   - 回放时恢复相同序列</p>
+</li>
+</ol>
+<div class="codehilite"><pre><span></span><code>struct RNGState {
   uint64_t seed;
   uint32_t call_count;
   uint32_t frame_number;
 }
-```</p>
+</code></pre></div>
+
 <ol start="4">
 <li>
 <p><strong>网络处理</strong>：
@@ -1257,7 +1270,7 @@ quoted_string ::= '"' .* '"'</p>
 </li>
 </ol>
 </details>
-<h2 id="_4">常见陷阱与错误</h2>
+<h2 id="_5">常见陷阱与错误</h2>
 <h3 id="1">1. 作弊码安全隐患</h3>
 <p><strong>陷阱</strong>：在正式版本中残留的作弊码被玩家发现并滥用。</p>
 <p><strong>案例</strong>：某竞技游戏的排行榜被使用遗留调试命令的玩家占领。</p>
@@ -1318,7 +1331,7 @@ quoted_string ::= '"' .* '"'</p>
 <li>避免累积计算，使用绝对值</li>
 <li>实施偏差检测和自动校正</li>
 </ul>
-<h3 id="_5">调试技巧总结</h3>
+<h3 id="_6">调试技巧总结</h3>
 <ol>
 <li><strong>分层调试</strong>：将作弊系统分层，便于定位问题</li>
 <li><strong>日志策略</strong>：详细记录所有调试命令的使用</li>

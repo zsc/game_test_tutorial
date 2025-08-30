@@ -628,6 +628,7 @@ CVar基类：
 3. Get(name) -> value
 4. Reset(name)
 5. List(pattern) -> CVar[]
+```
 
 验证逻辑：
 - 类型检查：运行时类型验证
